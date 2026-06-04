@@ -1,0 +1,37 @@
+name: Publish Varial Artifacts
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare build environment
+        run: chmod +x build.sh
+
+      - name: Execute build script
+        run: ./build.sh
+
+      - name: Organize deployment assets
+        run: |
+          mkdir -p staging
+          cp -r lib staging/
+          cp -r bin staging/
+          cd staging && zip -r ../varial.zip .
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        if: github.event_name == 'push'
+        with:
+          tag_name: release-${{ github.run_number }}
+          files: varial.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
