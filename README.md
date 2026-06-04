@@ -1,2 +1,3 @@
 # varial
 Varial(VAR). Read more...
+<img width="1080" height="802" alt="Image" src="https://github.com/user-attachments/assets/f77b6b45-073a-45e1-94cc-44120b6d9e05" />
